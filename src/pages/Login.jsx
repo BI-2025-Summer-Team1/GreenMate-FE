@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import '../styles/Login.css'
 function Login(){
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -61,36 +61,39 @@ function Login(){
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <lable>Email</lable>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e)=>{
-                        setEmail(e.target.value);
-                    }}
-                    required
-                    placeholder="이메일을 입력하세요"
-                ></input>
-            </div>
-            <div>
-                <label>password</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e)=>{
-                        setPassword(e.target.value);
-                    }}
-                    required
-                    placeholder="비밀번호를 입력하세요"
-                ></input>
-            </div>
-            {/* {error && <div style={{color: 'red'}}>{error}</div>} */}
-            <button type="submit">로그인</button>
-
-
-        </form>
+        <div className="login-container">
+            <form onSubmit={handleSubmit} className="login-form">
+                <h2 className="login-title">로그인</h2>
+                <div className="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                        }}
+                        required
+                        placeholder="이메일을 입력하세요"
+                        className="form-input"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                        required
+                        placeholder="비밀번호를 입력하세요"
+                        className="form-input"
+                    />
+                </div>
+                {error && <div className="error-message">{error}</div>}
+                <button type="submit" className="login-button">로그인</button>
+            </form>
+        </div>
     );
 }
 
