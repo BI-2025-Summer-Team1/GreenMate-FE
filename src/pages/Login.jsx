@@ -42,6 +42,7 @@ function Login(){
             // }
             // const data = await response.json();
             // localStroage.setItem('token', data.token);
+            // jwt 토큰을 받아와서 로그인 유효기간 설정 해야한다. 추후 업데이트 예정
 
             const user = mockUser.find((user)=>{
                 if(email === user.email && password === user.password)
