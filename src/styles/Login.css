@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh; /* height 대신 min-height 사용 */
     background-color: #f4f4f4;
-    width: 100vw; /* 전체 너비 사용 */
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .login-form {

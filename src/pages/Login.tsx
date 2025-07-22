@@ -6,26 +6,26 @@ interface User {
   email: string;
   password: string;
 }
-
+const mockUser: User[] = [
+    {
+      email: 'test@test',
+      password: '1234',
+    },
+  ];
 function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
-  const mockUser: User[] = [
-    {
-      email: 'test@test',
-      password: '1234',
-    },
-  ];
+  
 
   // useEffect를 통해 error 값이 바뀔 때 alert 실행
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     alert(error);
+  //   }
+  // }, [error]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ function Login() {
         throw new Error('로그인 실패');
       }
 
-      window.location.href = '/landingpage'; // 로그인 성공 후 랜딩페이지 이동
+      navigate('/landingpage'); // 로그인 성공 후 랜딩페이지 이동
     } catch (err) {
       setError('이메일 또는 비밀번호가 잘못되었습니다.');
     }
@@ -57,9 +57,7 @@ function Login() {
           <input
             type="text"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="이메일을 입력하세요"
             className="form-input"
@@ -86,7 +84,7 @@ function Login() {
         </button>
         <button
           type="button"
-          className='signup-button'
+          className="signup-button"
           onClick={() => navigate('/signup')}
         >
           회원가입
