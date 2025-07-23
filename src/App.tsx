@@ -1,3 +1,4 @@
+
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import Login from './pages/Login';
@@ -14,6 +15,7 @@ function App() {
     </Router>
 
   )
+
 }
 
-export default App
+export default App;

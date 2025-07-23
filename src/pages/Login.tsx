@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate}   from 'react-router-dom';
+import {useNavigate}   from 'react-router-dom';
 import '../styles/Login.css';
 
 interface User {
@@ -62,9 +62,7 @@ function Login() {
           <input
             type="password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="비밀번호를 입력하세요"
             className="form-input"
