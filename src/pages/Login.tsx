@@ -8,7 +8,7 @@ interface User {
 }
 const mockUser: User[] = [
     {
-      email: 'test@test',
+      email: 'test',
       password: '1234',
     },
   ];
@@ -18,14 +18,7 @@ function Login() {
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
-  
 
-  // useEffect를 통해 error 값이 바뀔 때 alert 실행
-  // useEffect(() => {
-  //   if (error) {
-  //     alert(error);
-  //   }
-  // }, [error]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
