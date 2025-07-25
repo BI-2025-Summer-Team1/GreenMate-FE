@@ -33,9 +33,8 @@ function Login() {
         throw new Error("로그인 실패");
       }
 
-       navigate(ROUTES.LANDING); // 로그인 성공 후 랜딩페이지 이동
-    }
-     catch (err) {
+      void navigate(ROUTES.LANDING); // 로그인 성공 후 랜딩페이지 이동
+    } catch (err) {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
       console.log(err);
     }
@@ -76,7 +75,7 @@ function Login() {
         <button
           type="button"
           className="signup-button"
-          onClick={() => navigate(ROUTES.SIGNUP)}
+          onClick={() => void navigate(ROUTES.SIGNUP)}
         >
           회원가입
         </button>
