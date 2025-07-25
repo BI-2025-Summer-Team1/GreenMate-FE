@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import {useNavigate}   from 'react-router-dom';
-import '../styles/Login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
+import "../styles/Login.css";
 
 interface User {
   email: string;
   password: string;
 }
 const mockUser: User[] = [
-    {
-      email: 'test',
-      password: '1234',
-    },
-  ];
+  {
+    email: "test",
+    password: "1234",
+  },
+];
 function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-
-
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       // 실제 로그인 API 호출 부분은 주석 처리
       // const response = await fetch('/mockup-api/login', { ... });
 
       const user = mockUser.find(
-        (user) => email === user.email && password === user.password
+        (user) => email === user.email && password === user.password,
       );
       if (!user) {
-        throw new Error('로그인 실패');
+        throw new Error("로그인 실패");
       }
 
-      navigate('/landingpage'); // 로그인 성공 후 랜딩페이지 이동
-    } catch (err) {
-      setError('이메일 또는 비밀번호가 잘못되었습니다.');
+       navigate(ROUTES.LANDING); // 로그인 성공 후 랜딩페이지 이동
+    }
+     catch (err) {
+      setError("이메일 또는 비밀번호가 잘못되었습니다.");
+      console.log(err);
     }
   };
 
@@ -76,14 +76,12 @@ function Login() {
         <button
           type="button"
           className="signup-button"
-          onClick={() => navigate('/signup')}
+          onClick={() => navigate(ROUTES.SIGNUP)}
         >
           회원가입
         </button>
       </form>
-
     </div>
-
   );
 }
 
