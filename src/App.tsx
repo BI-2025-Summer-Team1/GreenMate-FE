@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import CommunityWritePage from "./pages/CommunityWritePage";
 // import ActivityWritePage from "./pages/ActivityWritePage";
