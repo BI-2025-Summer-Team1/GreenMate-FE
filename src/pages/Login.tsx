@@ -43,21 +43,24 @@ function Login() {
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="login-title">로그인</h2>
+        <h2 className="login-title">GreenMate</h2>
+        <div className="welcome">
+          환경 운동가들을 위한 커뮤니티에 오신 것을 환영합니다.
+        </div>
         <div className="form-group">
-          <label>Email</label>
+          <div className="letter">이메일</div>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="이메일을 입력하세요"
+            placeholder="your@email.com"
             className="form-input"
             autoComplete="username"
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <div className="letter">비밀번호</div>
           <input
             type="password"
             value={password}
@@ -72,13 +75,16 @@ function Login() {
         <button type="submit" className="login-button">
           로그인
         </button>
-        <button
-          type="button"
-          className="signup-button"
-          onClick={() => void navigate(ROUTES.SIGNUP)}
-        >
-          회원가입
-        </button>
+        <br></br>
+        <div className="sign-in">
+          계정이 없으신가요?&nbsp;
+          <span
+            style={{ color: "#000000", cursor: "pointer", fontWeight: "bold" }}
+            onClick={() => void navigate(ROUTES.SIGNUP)}
+          >
+            회원가입
+          </span>
+        </div>
       </form>
     </div>
   );
