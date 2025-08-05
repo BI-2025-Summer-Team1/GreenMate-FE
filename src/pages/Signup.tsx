@@ -84,10 +84,7 @@ function Signup() {
       return;
     }
 
-    if (password.length < 4) {
-      setError("비밀번호는 4자 이상이어야 합니다.");
-      return;
-    }
+    
 
     try {
       // 실제 회원가입 API 호출 부분은 주석 처리
