@@ -24,10 +24,10 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [profileImagePreview, setProfileImagePreview] = useState<string>("");//preview 기능 확인하기
+  const [profileImagePreview, setProfileImagePreview] = useState<string>(""); //preview 기능 확인하기
   const [error, setError] = useState<string>("");
-  const [nicknameChecked, setNicknameChecked] = useState<boolean>(false);// 중복 확인을 했는지 확인
-  const [nicknameAvailable, setNicknameAvailable] = useState<boolean>(false);// 닉네임 사용 가능 여부
+  const [nicknameChecked, setNicknameChecked] = useState<boolean>(false); // 중복 확인을 했는지 확인
+  const [nicknameAvailable, setNicknameAvailable] = useState<boolean>(false); // 닉네임 사용 가능 여부
   const navigate = useNavigate();
 
   const handleNicknameCheck = () => {
@@ -37,8 +37,10 @@ function Signup() {
     }
 
     // 실제로는 API 호출로 중복 확인
-    const isNicknameExists = mockUsers.some((user) => user.nickname === nickname);
-    
+    const isNicknameExists = mockUsers.some(
+      (user) => user.nickname === nickname,
+    );
+
     if (isNicknameExists) {
       setError("이미 사용 중인 닉네임입니다.");
       setNicknameAvailable(false);
@@ -147,7 +149,7 @@ function Signup() {
           )}
         </div>
         {error && <div className="error-message">{error}</div>}
-        
+
         <div className="form-group">
           <div className="letter">이메일</div>
           <input
@@ -185,8 +187,6 @@ function Signup() {
           />
         </div>
 
-        
-
         <div className="form-group">
           <div className="letter">프로필 이미지</div>
           <div className="file-upload-container">
@@ -199,10 +199,12 @@ function Signup() {
             />
             <button
               type="button"
-              onClick={() => document.getElementById('profileImageInput')?.click()}
+              onClick={() =>
+                document.getElementById("profileImageInput")?.click()
+              }
               className="file-select-button"
             >
-             이미지 업로드
+              이미지 업로드
             </button>
             <span className="file-name">
               {profileImage ? profileImage.name : "선택된 파일 없음"}
@@ -219,14 +221,12 @@ function Signup() {
           )}
         </div>
 
-        
-        
         <button type="submit" className="signup-button">
           회원가입
         </button>
-        
+
         <br />
-        
+
         <div className="sign-in">
           이미 계정이 있으신가요?&nbsp;
           <span
