@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import "../styles/Signup.css";
+import "../styles/Login.css";
 
 interface User {
   email: string;
@@ -73,9 +74,12 @@ function Signup() {
       setError("모든 필드를 입력해주세요.");
       return;
     }
-
-    if (!nicknameChecked || !nicknameAvailable) {
-      setError("닉네임 중복 확인을 해주세요.");
+    if(!nicknameChecked){
+        setError("닉네임 중복 확인을 해주세요.");
+        return;
+    }
+    if (!nicknameAvailable) {
+      setError("중복된 닉네임 입니다.");
       return;
     }
 
@@ -150,7 +154,7 @@ function Signup() {
         <div className="form-group">
           <div className="letter">이메일</div>
           <input
-            type="email"
+            type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -227,7 +231,7 @@ function Signup() {
         <div className="sign-in">
           이미 계정이 있으신가요?&nbsp;
           <span
-            style={{ color: "#000000", cursor: "pointer", fontWeight: "bold" }}
+            className="login-link"
             onClick={() => void navigate(ROUTES.LOGIN)}
           >
             로그인
