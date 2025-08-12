@@ -82,7 +82,9 @@ const CommunityWritePage = () => {
       userId: 1,
       title: title.trim(),
       body: content.trim(),
-      attachments: imagePreviews.map((url) => ({ previewUrl: url })),
+      attachments: imagePreviews.map((url) => ({
+        previewUrl: url,
+      })),
     };
 
     console.log("게시글 데이터", communityPostData);
