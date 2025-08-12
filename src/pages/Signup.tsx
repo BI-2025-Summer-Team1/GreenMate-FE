@@ -155,7 +155,7 @@ function Signup() {
         <div className="form-group">
           <div className="letter">이메일</div>
           <input
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
