@@ -60,37 +60,19 @@ const CommunityWritePage = () => {
     const newErrors = { title: "", content: "", image: "" };
 
     if (!title.trim()) {
-      const msg = "제목을 입력해 주세요.";
-      alert(msg);
-      newErrors.title = msg;
-      setErrors(newErrors);
-      return false;
-    }
-    if (title.trim().length < 2 || title.trim().length > 20) {
-      const msg = "제목은 2자 이상 20자 이하로 작성해 주세요.";
-      alert(msg);
-      newErrors.title = msg;
-      setErrors(newErrors);
-      return false;
+      newErrors.title = "제목을 입력해 주세요.";
+    } else if (title.trim().length < 2 || title.trim().length > 20) {
+      newErrors.title = "제목은 2자 이상 20자 이하로 작성해 주세요.";
     }
 
     if (!content.trim()) {
-      const msg = "내용을 입력해 주세요.";
-      alert(msg);
-      newErrors.content = msg;
-      setErrors(newErrors);
-      return false;
-    }
-    if (content.trim().length < 10 || content.trim().length > 500) {
-      const msg = "내용은 10자 이상 500자 이하로 작성해 주세요.";
-      alert(msg);
-      newErrors.content = msg;
-      setErrors(newErrors);
-      return false;
+      newErrors.content = "내용을 입력해 주세요.";
+    } else if (content.trim().length < 10 || content.trim().length > 500) {
+      newErrors.content = "내용은 10자 이상 500자 이하로 작성해 주세요.";
     }
 
     setErrors(newErrors);
-    return true;
+    return !newErrors.title && !newErrors.content;
   };
 
   const handleSubmit = () => {
