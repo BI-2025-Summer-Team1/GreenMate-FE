@@ -1,13 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./CommunityWritePage.css";
 
 const CommunityWritePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [errors, setErrors] = useState({ title: "", content: "", image: "" });
-
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const urls = images.map((img) => URL.createObjectURL(img));
+    setImagePreviews(urls);
+
+    return () => {
+      urls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [images]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrors((prev) => ({ ...prev, image: "" }));
@@ -16,28 +25,31 @@ const CommunityWritePage = () => {
 
     if (images.length + selectedFiles.length > 10) {
       const message = "이미지는 최대 10개까지 업로드할 수 있습니다.";
-      alert(message);
       setErrors((prev) => ({ ...prev, image: message }));
       return;
     }
 
+    const validFiles: File[] = [];
+    const errorMessages: string[] = [];
+
     for (const file of selectedFiles) {
       const sizeInMB = file.size / (1024 * 1024);
       if (sizeInMB > 1) {
-        const message = "1MB 이하 파일만 업로드 가능합니다.";
-        alert(message);
-        setErrors((prev) => ({ ...prev, image: message }));
-        return;
+        errorMessages.push(`'${file.name}' 파일은 1MB를 초과합니다.`);
+        continue;
       }
       if (!file.type.match(/^image\/(jpeg|png|gif|bmp|webp)$/)) {
-        const message = "지원되지 않는 이미지 형식입니다.";
-        alert(message);
-        setErrors((prev) => ({ ...prev, image: message }));
-        return;
+        errorMessages.push(`'${file.name}' 파일은 지원되지 않는 형식입니다.`);
+        continue;
       }
+      validFiles.push(file);
     }
 
-    setImages((prev) => [...prev, ...selectedFiles]);
+    if (errorMessages.length > 0) {
+      setErrors((prev) => ({ ...prev, image: errorMessages.join("\n") }));
+    }
+
+    setImages((prev) => [...prev, ...validFiles]);
   };
 
   const handleImageDelete = (indexToRemove: number) => {
@@ -88,9 +100,7 @@ const CommunityWritePage = () => {
       userId: 1,
       title: title.trim(),
       body: content.trim(),
-      attachments: images.map((file) => ({
-        previewUrl: URL.createObjectURL(file),
-      })),
+      attachments: imagePreviews.map((url) => ({ previewUrl: url })),
     };
 
     console.log("게시글 데이터", communityPostData);
@@ -146,16 +156,16 @@ const CommunityWritePage = () => {
           />
           {errors.image && <span className="error-text">{errors.image}</span>}
           <div className="image-preview-area">
-            {images.map((img) => (
-              <div key={img.name} className="image-preview-box">
+            {imagePreviews.map((url, idx) => (
+              <div key={images[idx].name} className="image-preview-box">
                 <img
-                  src={URL.createObjectURL(img)}
-                  alt={img.name}
+                  src={url}
+                  alt={images[idx].name}
                   className="preview-thumb"
                 />
                 <button
                   className="image-delete-btn"
-                  onClick={() => handleImageDelete(images.indexOf(img))}
+                  onClick={() => handleImageDelete(idx)}
                   type="button"
                 >
                   ✕
