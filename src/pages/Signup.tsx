@@ -13,7 +13,7 @@ interface User {
 
 const mockUsers: User[] = [
   {
-    email: "test",
+    email: "test@test.com",
     password: "1234",
     nickname: "testuser",
   },
