@@ -79,7 +79,7 @@ function Signup() {
         return;
     }
     if (!nicknameAvailable) {
-      setError("중복된 닉네임 입니다.");
+      setError("중복된 닉네임입니다.");
       return;
     }
 
