@@ -88,8 +88,6 @@ const CommunityWritePage = () => {
       userId: 1,
       title: title.trim(),
       body: content.trim(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
       attachments: images.map((file) => ({
         previewUrl: URL.createObjectURL(file),
       })),
@@ -148,16 +146,16 @@ const CommunityWritePage = () => {
           />
           {errors.image && <span className="error-text">{errors.image}</span>}
           <div className="image-preview-area">
-            {images.map((img, idx) => (
-              <div key={idx} className="image-preview-box">
+            {images.map((img) => (
+              <div key={img.name} className="image-preview-box">
                 <img
                   src={URL.createObjectURL(img)}
-                  alt={`img-${idx}`}
+                  alt={img.name}
                   className="preview-thumb"
                 />
                 <button
                   className="image-delete-btn"
-                  onClick={() => handleImageDelete(idx)}
+                  onClick={() => handleImageDelete(images.indexOf(img))}
                   type="button"
                 >
                   ✕
