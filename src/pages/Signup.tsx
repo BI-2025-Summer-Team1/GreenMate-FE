@@ -30,6 +30,7 @@ function Signup() {
   const [nicknameChecked, setNicknameChecked] = useState<boolean>(false); // 중복 확인을 했는지 확인
   const [nicknameAvailable, setNicknameAvailable] = useState<boolean>(false); // 닉네임 사용 가능 여부
   const navigate = useNavigate();
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);// 1. 컴포넌트 상단에 ref 선언
 
   const handleNicknameCheck = () => {
     if (!nickname.trim()) {
@@ -196,13 +197,11 @@ function Signup() {
               accept="image/*"
               onChange={handleProfileImageChange}
               className="file-input-hidden"
-              id="profileImageInput"
+              ref={fileInputRef} // 2. ref를 input에 연결
             />
             <button
               type="button"
-              onClick={() =>
-                document.getElementById("profileImageInput")?.click()
-              }
+              onClick={() => fileInputRef.current?.click()}
               className="file-select-button"
             >
               이미지 업로드
