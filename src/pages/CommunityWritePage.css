@@ -44,6 +44,7 @@
   font-size: 14px;
   background-color: #fff;
   color: #111827;
+  box-sizing: border-box;
 }
 
 .form-textarea {
