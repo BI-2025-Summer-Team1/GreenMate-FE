@@ -2,42 +2,50 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import "../styles/Login.css";
+type LoginResponse = { accessToken: string; [key: string]: unknown };
+
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  async function loginApi(email: string, password: string) {
+  async function loginApi(
+    email: string,
+    password: string,
+  ): Promise<LoginResponse> {
     const response = await fetch("/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    if (!response.ok) {
-      throw new Error("로그인 실패");
-    }
-    return response.json(); // { accessToken: string, ... }
+    if (!response.ok) throw new Error("로그인 실패");
+    return (await response.json()) as LoginResponse;
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
     setError("");
     try {
       const data = await loginApi(email, password);
-      // accessToken을 localStorage에 저장
-      if (data.accessToken) {
+      if (typeof data.accessToken === "string") {
         localStorage.setItem("accessToken", data.accessToken);
       }
-      // 로그인 성공 시 이동
-      navigate(ROUTES.LANDING);
-    } catch (err) {
+      void navigate(ROUTES.LANDING);
+    } catch {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
     }
   };
 
   return (
     <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(e);
+        }}
+        className="login-form"
+      >
         <h2 className="login-title">GreenMate</h2>
         <div className="welcome">
           환경 운동가들을 위한 커뮤니티에 오신 것을 환영합니다.
