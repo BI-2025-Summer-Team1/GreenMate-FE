@@ -5,24 +5,23 @@ import "../styles/Login.css";
 type LoginResponse = { accessToken: string; [key: string]: unknown };
 
 async function loginApi(
-    email: string,
-    password: string,
-  ): Promise<LoginResponse> {
-    const response = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    if (!response.ok) throw new Error("로그인 실패");
-    return (await response.json()) as LoginResponse;
-  }
+  email: string,
+  password: string,
+): Promise<LoginResponse> {
+  const response = await fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!response.ok) throw new Error("로그인 실패");
+  return (await response.json()) as LoginResponse;
+}
 
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
