@@ -8,6 +8,8 @@ const ActivityWritePage = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [deadlineDate, setDeadlineDate] = useState("");
   const [deadlineTime, setDeadlineTime] = useState("");
+  const [errors, setErrors] = useState({ title: "", content: "", image: "" });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const ActivityWritePage = () => {
   }, [images]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors((prev) => ({ ...prev, image: "" }));
     if (!e.target.files) return;
     const selected = Array.from(e.target.files);
 
@@ -40,35 +43,59 @@ const ActivityWritePage = () => {
     }
 
     if (images.length + validFiles.length > 3) {
-      alert("이미지는 최대 3개까지 업로드할 수 있습니다.");
-      return;
+      errorMessages.push("이미지는 최대 3개까지 업로드할 수 있습니다.");
     }
 
     if (errorMessages.length > 0) {
-      alert(errorMessages.join("\n"));
+      setErrors((prev) => ({ ...prev, image: errorMessages.join("\n") }));
     }
 
-    setImages((prev) => [...prev, ...validFiles]);
+    setImages((prev) => [...prev, ...validFiles].slice(0, 3));
+  };
+
+  const handleImageDelete = (indexToRemove: number) => {
+    setImages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  };
+
+  const validate = () => {
+    const newErrors = { title: "", content: "", image: "" };
+
+    if (!title.trim()) {
+      newErrors.title = "제목을 입력해 주세요.";
+    } else if (title.trim().length > 50) {
+      newErrors.title = "제목은 최대 50자까지 작성할 수 있습니다.";
+    }
+
+    if (!content.trim()) {
+      newErrors.content = "내용을 입력해 주세요.";
+    } else if (content.trim().length > 4000) {
+      newErrors.content = "내용은 최대 4000자까지 작성할 수 있습니다.";
+    }
+
+    setErrors(newErrors);
+    return !newErrors.title && !newErrors.content && !newErrors.image;
   };
 
   const handleSubmit = () => {
-    if (title.length > 50) {
-      alert("제목은 최대 50자까지 작성할 수 있습니다.");
-      return;
-    }
-    if (content.length > 4000) {
-      alert("내용은 최대 4000자까지 작성할 수 있습니다.");
-      return;
-    }
+    if (!validate()) return;
 
-    const activityPostData = {
+    const postData = {
       title,
       content,
       images: imagePreviews,
       deadline: `${deadlineDate} ${deadlineTime}`,
       location: "",
     };
-    console.log("환경 모집 데이터:", activityPostData);
+
+    console.log("환경 모집글:", postData);
+
+    setTitle("");
+    setContent("");
+    setImages([]);
+    setDeadlineDate("");
+    setDeadlineTime("");
+    setErrors({ title: "", content: "", image: "" });
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -84,8 +111,8 @@ const ActivityWritePage = () => {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력하세요."
             className="form-input"
-            maxLength={50}
           />
+          {errors.title && <span className="error-text">{errors.title}</span>}
         </div>
 
         <div className="form-field">
@@ -96,8 +123,10 @@ const ActivityWritePage = () => {
             rows={6}
             placeholder="내용을 입력하세요."
             className="form-textarea"
-            maxLength={4000}
           />
+          {errors.content && (
+            <span className="error-text">{errors.content}</span>
+          )}
         </div>
 
         <div className="form-field">
@@ -110,16 +139,26 @@ const ActivityWritePage = () => {
             ref={fileInputRef}
             className="form-input"
           />
+          {errors.image && <span className="error-text">{errors.image}</span>}
           <div className="image-preview-area">
             {imagePreviews.map((url, idx) => (
-              <img
-                key={idx}
-                src={url}
-                alt={`preview-${idx}`}
-                className="preview-thumb"
-              />
+              <div key={idx} className="image-preview-box">
+                <img
+                  src={url}
+                  alt={`preview-${idx}`}
+                  className="preview-thumb"
+                />
+                <button
+                  type="button"
+                  className="image-delete-btn"
+                  onClick={() => handleImageDelete(idx)}
+                >
+                  ✕
+                </button>
+              </div>
             ))}
           </div>
+          <span className="image-count">{images.length}/3</span>
         </div>
 
         <div className="form-row">

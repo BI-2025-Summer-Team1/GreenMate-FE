@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
+import { ROUTES } from "./constants/routes";
 import CommunityWritePage from "./pages/CommunityWritePage";
 import ActivityWritePage from "./pages/ActivityWritePage";
-import { ROUTES } from "./constants/routes";
 
 function App() {
   return (
