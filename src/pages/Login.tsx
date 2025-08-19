@@ -4,12 +4,7 @@ import { ROUTES } from "../constants/routes";
 import "../styles/Login.css";
 type LoginResponse = { accessToken: string; [key: string]: unknown };
 
-function Login() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const navigate = useNavigate();
-  async function loginApi(
+async function loginApi(
     email: string,
     password: string,
   ): Promise<LoginResponse> {
@@ -21,6 +16,13 @@ function Login() {
     if (!response.ok) throw new Error("로그인 실패");
     return (await response.json()) as LoginResponse;
   }
+
+function Login() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
+  
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
