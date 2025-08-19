@@ -2,41 +2,36 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import "../styles/Login.css";
-
-interface User {
-  email: string;
-  password: string;
-}
-const mockUser: User[] = [
-  {
-    email: "test",
-    password: "1234",
-  },
-];
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function loginApi(email: string, password: string) {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) {
+      throw new Error("로그인 실패");
+    }
+    return response.json(); // { accessToken: string, ... }
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-
     try {
-      // 실제 로그인 API 호출 부분은 주석 처리
-      // const response = await fetch('/mockup-api/login', { ... });
-
-      const user = mockUser.find(
-        (user) => email === user.email && password === user.password,
-      );
-      if (!user) {
-        throw new Error("로그인 실패");
+      const data = await loginApi(email, password);
+      // accessToken을 localStorage에 저장
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
       }
-
-      void navigate(ROUTES.LANDING); // 로그인 성공 후 랜딩페이지 이동
+      // 로그인 성공 시 이동
+      navigate(ROUTES.LANDING);
     } catch (err) {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
-      console.log(err);
     }
   };
 
