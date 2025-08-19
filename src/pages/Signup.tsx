@@ -30,7 +30,7 @@ function Signup() {
   const [nicknameChecked, setNicknameChecked] = useState<boolean>(false); // 중복 확인을 했는지 확인
   const [nicknameAvailable, setNicknameAvailable] = useState<boolean>(false); // 닉네임 사용 가능 여부
   const navigate = useNavigate();
-  const fileInputRef = React.useRef<HTMLInputElement | null>(null);// 1. 컴포넌트 상단에 ref 선언
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null); // 1. 컴포넌트 상단에 ref 선언
 
   const handleNicknameCheck = () => {
     if (!nickname.trim()) {
@@ -75,9 +75,9 @@ function Signup() {
       setError("모든 필드를 입력해주세요.");
       return;
     }
-    if(!nicknameChecked){
-        setError("닉네임 중복 확인을 해주세요.");
-        return;
+    if (!nicknameChecked) {
+      setError("닉네임 중복 확인을 해주세요.");
+      return;
     }
     if (!nicknameAvailable) {
       setError("중복된 닉네임입니다.");
@@ -88,8 +88,6 @@ function Signup() {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
-
-    
 
     try {
       // 실제 회원가입 API 호출 부분은 주석 처리
