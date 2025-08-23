@@ -79,7 +79,7 @@ function Login() {
         <div className="sign-in">
           계정이 없으신가요?&nbsp;
           <span
-            style={{ color: "#000000", cursor: "pointer", fontWeight: "bold" }}
+            className="login-link"
             onClick={() => void navigate(ROUTES.SIGNUP)}
           >
             회원가입
