@@ -12,7 +12,6 @@ function App() {
         <Route path={ROUTES.COMMUNITY_WRITE} element={<CommunityWritePage />} />
       </Routes>
     </Router>
-
   );
 }
 
