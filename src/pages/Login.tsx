@@ -27,7 +27,7 @@ function Login() {
       // const response = await fetch('/mockup-api/login', { ... });
 
       const user = mockUser.find(
-        (user) => email === user.email && password === user.password,
+        (user) => email === user.email && password === user.password
       );
       if (!user) {
         throw new Error("로그인 실패");
